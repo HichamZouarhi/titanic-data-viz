@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+	
+	<script type="text/javascript">
+		function draw(data) {
+				/*
+			D3.js setup code
+			*/
+
+			"use strict";
+			var margin = 75,
+				width = 1400 - margin,
+				height = 600 - margin;
+
+			//create	3 svg elements inside the 3 divs to hold the charts
+			//with the same dimensions
+			var svg1 = d3.select("#myChart1")
+				.append("svg")
+				.attr("width", width + margin)
+				.attr("height", height + margin)
+				.append('g')
+				.attr('class','chart');
+
+			var svg2 = d3.select("#myChart2")
+				.append("svg")
+				.attr("width", width + margin)
+				.attr("height", height + margin)
+				.append('g')
+				.attr('class','chart');
+
+			var svg3 = d3.select("#myChart3")
+				.append("svg")
+				.attr("width", width + margin)
+				.attr("height", height + margin)
+				.append('g')
+				.attr('class','chart');
+
+			//creates the first chart of the number of survivors by passenger's class
+			// and by Sex
+			var myChart1 = new dimple.chart(svg1, data);
+			var pClassAxis1 = myChart1.addCategoryAxis("x", "Pclass"); 
+			var yAxis1 = myChart1.addMeasureAxis("y", "Survived");
+			myChart1.addSeries('Sex', dimple.plot.bar);
+			pClassAxis1.addOrderRule('Pclass',false); //orders the x axis by passenger's class ascending
+			pClassAxis1.title="Passenger's class";
+			yAxis1.title="Survivors";
+			myChart1.draw();
+
+			//creates the second chart of the number of deads by assenger's class
+			//and by Sex
+			var myChart2 = new dimple.chart(svg2, data);
+			var pClassAxis2 = myChart2.addCategoryAxis("x", "Pclass"); 
+			var yAxis2 = myChart2.addMeasureAxis("y", "Died");
+			pClassAxis2.title="Passenger's class";
+			yAxis2.title="Deads";
+			myChart2.addSeries('Sex', dimple.plot.bar);
+			myChart2.draw();
+
+			//the 3rd chart is a visualization of the number of survivors by Age
+			var myChart3 = new dimple.chart(svg3, data);
+			var ageAxis = myChart3.addCategoryAxis("x", "Age"); 
+			var y1 = myChart3.addMeasureAxis("y", "Died");
+			var y2 = myChart3.addMeasureAxis("y", "Survived");
+			myChart3.addSeries(null, dimple.plot.line, [ageAxis,y1]);
+			myChart3.addSeries(null, dimple.plot.line, [ageAxis,y2]);
+			ageAxis.addOrderRule('Age',false); // orders the x axis by ascending age
+			y2.title = "Survivors";
+			y1.title = "Deads";
+			ageAxis.ticks=5;
+			myChart3.draw();
+		
+		};
+		</script>
+	</head>
+	<body>
+		<!-- the divs elements that will hold the charts-->
+		<div class="item active" id="myChart1"></div>
+
+		<div class="item" id="myChart2"></div>
+
+		<div class="item" id="myChart3"></div>
+		
+		<script type="text/javascript">
+			/*
+			Use D3 (not dimple.js) to load the CSV file
+			and pass the contents of it to the draw function
+			*/
+			//since there are some ages like 0.65 in the dataset
+			//I clean the data from them by rounding them and ignoring the values
+			//less than 0
+			d3.csv("titanic-data.csv", function(d){
+				d['Age']=Math.round(+d['Age']);
+				if (d['Age']>0){
+					return d;
+				}
+			} ,draw);
+		</script>
+	</body>
+</html>
