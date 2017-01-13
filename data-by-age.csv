@@ -1,0 +1,15 @@
+Age,Status,count
+"(0, 10]",Died,26
+"(0, 10]",Survived,38
+"(10, 20]",Died,71
+"(10, 20]",Survived,44
+"(20, 30]",Died,146
+"(20, 30]",Survived,84
+"(30, 40]",Died,86
+"(30, 40]",Survived,69
+"(40, 50]",Died,53
+"(40, 50]",Survived,33
+"(50, 60]",Died,25
+"(50, 60]",Survived,17
+"(60, 70]",Died,13
+"(60, 70]",Survived,4
