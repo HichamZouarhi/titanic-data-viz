@@ -29,6 +29,9 @@ it by ranges and thus having a lot of unwanted values like 0.75 and so on.
 # Ressources
 
 The data comes from the Kaggle website : https://www.kaggle.com/c/titanic
+
 Dimple.js : http://dimplejs.org/
+
 D3.js : https://d3js.org/
+
 StackOverflow : http://stackoverflow.com/
